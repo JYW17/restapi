@@ -1,0 +1,7 @@
+__pycache__
+
+
+# images 디렉토리의 모든 파일을 무시하되
+# test_id_1234.jpg 파일은 예외 처리
+images/*
+!images/test_id_1234.jpg

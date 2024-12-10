@@ -47,7 +47,7 @@
 1. 서버 실행
    아래 명령어를 입력하여 FastAPI 서버를 실행합니다.
    ```
-   uvicorn main:app --reload
+   python3 -m uvicorn main:app --host 0.0.0.0 --port 8000
    ```
 2. API 예시 리퀘스트 및 리스폰스
 
@@ -86,6 +86,14 @@
      {
        "message": "File abc123.png has been deleted."
      }
+     ```
+3. test_api.sh로 테스트
+   - 각 api의 모든 기능을 실행하여 테스트 할 수 있는 스크립트입니다.
+     ```
+     # 실행 권한 부여
+     chmod +x ./test_api.sh
+     # 실행
+     ./test_api.sh
      ```
 
 ---

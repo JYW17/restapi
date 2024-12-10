@@ -64,9 +64,8 @@
      - 응답 예시:
        ```json
        {
-         "original_id": "abc123",
-         "message": "Image uploaded and converted successfully.",
-         "converted_id": "abc456"
+         "file_id": "abc123",
+         "message": "Image uploaded successfully.",
        }
        ```
    - 이미지 다운로드 요청 (GET /download/{file_id})
@@ -99,13 +98,12 @@
 
 ## **5. 파일 설명**
 - main.py: REST API의 핵심 로직이 담긴 메인 코드 파일입니다.
-  - API 경로
-    - / : 기본 경로로 간단한 메시지를 반환합니다.
-    - /upload-image/ : 이미지 파일을 업로드하고 파일명과 크기를 반환합니다.
-    - /upload/ : 이미지를 업로드하고 해당 파일을 서버에 저장합니다.
-    - /download/ : 서버에 저장된 이미지를 다운로드할 수 있습니다.
-    - /delete/ : 서버에 저장된 이미지를 삭제할 수 있습니다.
-    - /error/ : 에러 예시를 확인할 수 있는 경로로, 404 상태 코드를 반환합니다.
+   - / : 기본 경로로 간단한 메시지를 반환합니다.
+   - /upload-image/ : 이미지 파일을 업로드하고 파일명과 크기를 반환합니다.
+   - /upload/ : 이미지를 업로드하고 해당 파일을 서버에 저장합니다.
+   - /download/ : 서버에 저장된 이미지를 다운로드할 수 있습니다.
+   - /delete/ : 서버에 저장된 이미지를 삭제할 수 있습니다.
+   - /error/ : 에러 예시를 확인할 수 있는 경로로, 404 상태 코드를 반환합니다.
 - requirements.txt: 필수 라이브러리 목록이 작성된 파일입니다.
 - images/ : 테스트 이미지(test_id_1234.jpg)가 들어있습니다.
 - test_api.sh: 모든 기능을 실행하여 테스트 해볼 수 있는 쉘 스크립트입니다.

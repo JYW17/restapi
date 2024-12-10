@@ -14,7 +14,7 @@ confirm() {
 # 파일 확장자 확인 함수
 get_extension() {
     local file_id=$1
-    local content_type=$(curl -sI "${API_URL}/download/${file_id}" | grep -i 'content-type' | cut -d' ' -f2- | tr -d '\r\n')
+    local content_type=$(curl -s "${API_URL}/download/${file_id}" -o /dev/null -w '%{content_type}')
     case "${content_type}" in
         *"image/jpeg"*) echo "jpg" ;;
         *"image/png"*) echo "png" ;;

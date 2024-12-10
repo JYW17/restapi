@@ -34,7 +34,11 @@
    ```
    만약 error: externally-managed-environment 오류 시 아래 실행
    ```
-   sudo apt install python3-fastapi pillow uvicorn python-multipart
+   sudo apt install \
+   python3-fastapi \
+   python3-pillow \
+   python3-uvicorn \
+   python3-multipart
    ```
 
 ---

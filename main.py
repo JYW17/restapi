@@ -35,55 +35,40 @@ async def upload_image(file: UploadFile = File(...)):
 @app.post("/upload")
 async def upload_image(file: UploadFile = File(...), resize: str = None, convert_to: str = None):
     try:
-        # 고유 파일 ID 생성
         file_extension = file.filename.split(".")[-1]
-        original_id = uuid4().hex
-        new_filename = f"{original_id}.{file_extension}"
-
-        file_path = os.path.join(IMAGE_DIR, new_filename)
         
-        response = {
-            "original_id": original_id,
-        }
-        
-        # 파일 저장
-        with open(file_path, "wb") as f:
-            shutil.copyfileobj(file.file, f)
-        response ["message"] = "Image uploaded successfully."
-
-        # 이미지 변환
-        image = Image.open(file_path)
-        converted_id = None
-        
-        # 현재 확장자와 동일한 경우 변환 건너뛰기
-        if convert_to and convert_to.lower() == file_extension.lower():
-            convert_to = None
-        
-        if convert_to or resize:
-            
-            # convert_to가 지원되는 확장자인지 확인
-            if convert_to and convert_to.lower() not in SUPPORTED_FORMATS:
-                raise HTTPException(
-                    status_code=400,
-                    detail=f"Unsupported format. Supported formats are: {', '.join(SUPPORTED_FORMATS)}"
-                )
-            
-            converted_id = uuid4().hex
-            new_path = os.path.join(IMAGE_DIR, f"{converted_id}.{convert_to or file_extension}")
+        # 변환이나 리사이즈가 필요한 경우
+        if resize or convert_to:
+            image = Image.open(file.file)
+            file_id = uuid4().hex
+            target_extension = convert_to or file_extension
+            file_path = os.path.join(IMAGE_DIR, f"{file_id}.{target_extension}")
             
             if resize:
                 width, height = map(int, resize.split(","))
                 image = image.resize((width, height))
-        
-            image.save(new_path) 
-        
-        image.close()
-        
-        if converted_id:
-            response["converted_id"] = converted_id
-            response["message"] = "Image uploaded and converted successfully."
             
-        return response
+            image.save(file_path)
+            image.close()
+            
+            return {
+                "file_id": file_id,
+                "message": "Image uploaded and processed successfully."
+            }
+            
+        # 변환이나 리사이즈가 없는 경우
+        else:
+            file_id = uuid4().hex
+            file_path = os.path.join(IMAGE_DIR, f"{file_id}.{file_extension}")
+            
+            with open(file_path, "wb") as f:
+                shutil.copyfileobj(file.file, f)
+                
+            return {
+                "file_id": file_id,
+                "message": "Image uploaded successfully."
+            }
+            
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
